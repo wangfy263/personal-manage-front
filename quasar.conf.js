@@ -80,6 +80,7 @@ module.exports = function(/* ctx */) {
         'QCardSection',
         'QCardActions',
         'QSeparator',
+        'QUploader',
       ],
 
       directives: ['Ripple'],
@@ -142,7 +143,7 @@ module.exports = function(/* ctx */) {
       port: 8080,
       open: true, // opens browser window automatically
       proxy: {
-        '/api/personal': 'http://localhost:7001', // 测试环境
+        '/api/personal': 'http://localhost:8004', // 测试环境
       },
     },
 

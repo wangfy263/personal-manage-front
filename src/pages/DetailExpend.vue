@@ -49,11 +49,10 @@
             </template>
           </q-input>
         </div>
-        <div class="col col-mg-20">
-        </div>
+        <div class="col col-mg-20"></div>
       </div>
       <q-card-actions align="right">
-        <q-btn color="primary" flat>Query</q-btn>
+        <q-btn color="primary" flat @click="query()">Query</q-btn>
         <q-btn color="primary" flat class="q-ml-sm">Reset</q-btn>
       </q-card-actions>
     </q-card>
@@ -193,71 +192,7 @@ export default {
           sortable: true,
         },
       ],
-      data: [
-        {
-          type_level_first: '日常生活',
-          type_level_second: '食材',
-          expend_money: '15.8',
-          expend_time: '2020-06-20',
-          remark: '早餐',
-        },
-        {
-          type_level_first: '日常生活',
-          type_level_second: '食材',
-          expend_money: '15.8',
-          expend_time: '2020-06-20',
-          remark: '早餐',
-        },
-        {
-          type_level_first: '日常生活',
-          type_level_second: '食材',
-          expend_money: '15.8',
-          expend_time: '2020-06-20',
-          remark: '早餐',
-        },
-        {
-          type_level_first: '日常生活',
-          type_level_second: '食材',
-          expend_money: '15.8',
-          expend_time: '2020-06-20',
-          remark: '早餐',
-        },
-        {
-          type_level_first: '日常生活',
-          type_level_second: '食材',
-          expend_money: '15.8',
-          expend_time: '2020-06-20',
-          remark: '早餐',
-        },
-        {
-          type_level_first: '日常生活',
-          type_level_second: '食材',
-          expend_money: '15.8',
-          expend_time: '2020-06-20',
-          remark: '早餐',
-        },
-        {
-          type_level_first: '日常生活',
-          type_level_second: '食材',
-          expend_money: '15.8',
-          expend_time: '2020-06-20',
-          remark: '早餐',
-        },
-        {
-          type_level_first: '日常生活',
-          type_level_second: '食材',
-          expend_money: '15.8',
-          expend_time: '2020-06-20',
-          remark: '早餐',
-        },
-        {
-          type_level_first: '日常生活',
-          type_level_second: '食材',
-          expend_money: '15.8',
-          expend_time: '2020-06-20',
-          remark: '早餐',
-        },
-      ],
+      data: [],
     };
   },
   computed: {
@@ -290,6 +225,9 @@ export default {
           });
         }
       });
+    },
+    query() {
+      this.getListExpend(this.form);
     },
   },
 };

@@ -37,7 +37,7 @@
             lazy-rules
             :rules="[
               val => (val !== null && val !== '') || 'not empty',
-              val => (val > 0) || 'It has to be greater than 0',
+              val => val > 0 || 'It has to be greater than 0',
             ]"
           />
         </div>
@@ -129,6 +129,9 @@ export default {
       this.form.money = 0;
       this.form.date = date.formatDate(Date.now(), 'YYYY/MM/DD');
       this.form.remark = '';
+    },
+    checkFileType(files) {
+      return files.filter(file => file.type === 'image/png');
     },
   },
 };
