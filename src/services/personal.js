@@ -8,7 +8,7 @@ import request from '@/utils/request';
 export function dictionaries(data) {
   return request({
     method: 'get',
-    url: '/api/personal/emuns',
+    url: '/api/personal/dictionarys',
     data,
   });
 }

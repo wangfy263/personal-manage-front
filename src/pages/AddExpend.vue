@@ -29,8 +29,7 @@
         <div class="col col-mgr-100">
           <q-input
             outlined
-            type="number"
-            hint="单位: 分"
+            hint="单位: 元"
             standout="bg-teal text-white"
             v-model="form.money"
             label="金额"
@@ -110,7 +109,7 @@ export default {
   methods: {
     onSubmit() {
       const params = {
-        expend_money: Number(this.form.money),
+        expend_money: Number(this.form.money) * 100,
         expend_time: this.form.date,
         login_no: 'wangfy',
         type_level_first: this.form.level1Res.code,

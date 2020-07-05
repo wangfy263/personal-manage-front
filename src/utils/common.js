@@ -105,12 +105,16 @@ export function diff(arr1, arr2) {
   return arr1.filter(item => !arr2Set.has(item));
 }
 
-export function updCheckedStyle() {
-  const checkedElement = document.getElementsByClassName('el-checkbox is-disabled is-checked');
-  for (let i = 0; i < checkedElement.length; i += 1) {
-    checkedElement[i].firstChild.disabled = '';
-    checkedElement[i].lastChild.style.disable = false;
-    checkedElement[i].lastChild.style.color = '#67C23A';
-    checkedElement[i].firstChild.firstChild.style['border-color'] = '#67C23A';
-  }
+export function getMonthFirstAndEnd() {
+  const now = new Date(); // 当前日期
+  const nowMonth = now.getMonth(); // 当前月
+  const nowYear = now.getFullYear(); // 当前年
+  // 本月的开始时间
+  const monthStartDate = new Date(nowYear, nowMonth, 1);
+  // 本月的结束时间
+  const monthEndDate = new Date(nowYear, nowMonth + 1, 0);
+  return {
+    start: monthStartDate,
+    end: monthEndDate,
+  };
 }

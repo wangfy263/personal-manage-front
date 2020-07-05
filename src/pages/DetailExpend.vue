@@ -10,7 +10,6 @@
       <div class="row">
         <div class="col col-mg-20">
           <q-select
-            dense
             outlined
             standout="bg-teal text-white"
             v-model="form.level1Res"
@@ -20,7 +19,6 @@
         </div>
         <div class="col col-mg-20">
           <q-select
-            dense
             outlined
             standout="bg-teal text-white"
             v-model="form.level2Res"
@@ -32,24 +30,40 @@
       <div class="row">
         <div class="col col-mg-20">
           <q-input
-            dense
             outlined
             standout="bg-teal text-white"
-            v-model="form.date"
-            label="添加时间"
+            v-model="form.startDate"
+            label="开始时间"
             mask="date"
             :rules="['date']"
           >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date v-model="form.date" @input="() => $refs.qDateProxy.hide()" />
+                  <q-date v-model="form.startDate" @input="() => $refs.qDateProxy.hide()" />
                 </q-popup-proxy>
               </q-icon>
             </template>
           </q-input>
         </div>
-        <div class="col col-mg-20"></div>
+        <div class="col col-mg-20">
+          <q-input
+            outlined
+            standout="bg-teal text-white"
+            v-model="form.endDate"
+            label="结束时间"
+            mask="date"
+            :rules="['date']"
+          >
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="form.endDate" @input="() => $refs.qDateProxy.hide()" />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
       </div>
       <q-card-actions align="right">
         <q-btn color="primary" flat @click="query()">Query</q-btn>
@@ -125,12 +139,13 @@
 .mgb-10
   margin-bottom: 20px
 .col-mg-20
-  margin: 20px 40px;
+  margin: 20px 10px;
 </style>
 <script>
 import { mapGetters } from 'vuex';
 import { date } from 'quasar';
 import { getListExpends } from '@/services/personal';
+import { getMonthFirstAndEnd } from '@/utils/common';
 
 export default {
   data() {
@@ -138,7 +153,8 @@ export default {
       form: {
         level1Res: '',
         level2Res: '',
-        date: date.formatDate(Date.now(), 'YYYY/MM/DD'),
+        startDate: date.formatDate(Date.now(), 'YYYY/MM/DD'),
+        endDate: date.formatDate(Date.now(), 'YYYY/MM/DD'),
         remark: '',
       },
       visibleColumns: [
@@ -208,16 +224,23 @@ export default {
     },
   },
   mounted() {
+    const sae = getMonthFirstAndEnd();
+    this.form.startDate = date.formatDate(sae.start, 'YYYY/MM/DD');
+    this.form.endDate = date.formatDate(sae.end, 'YYYY/MM/DD');
     this.getListExpend(this.form);
   },
   methods: {
     getListExpend(data) {
       const param = JSON.parse(JSON.stringify(data));
-      param.date = param.date.replace(/\//g, '-');
+      param.level1Res = this.form.level1Res.code;
+      param.level2Res = this.form.level2Res.code;
+      param.startDate = param.startDate.replace(/\//g, '-');
+      param.endDate = param.endDate.replace(/\//g, '-');
       getListExpends(param).then(res => {
         if (res.retCode === '000000') {
           this.data = res.data.map(item => {
             const each = item;
+            each.expend_money = Number(item.expend_money) / 100.0;
             each.type_level_first = this.enumsMap[item.type_level_first].name;
             each.type_level_second = this.enumsMap[item.type_level_second].name;
             [each.expend_time] = item.expend_time.split(' ');

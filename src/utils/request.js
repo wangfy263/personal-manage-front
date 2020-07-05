@@ -32,12 +32,7 @@ const service = axios.create({
 });
 
 service.interceptors.request.use(
-  config => {
-    // let data = config.data;
-    console.log(config.param);
-    console.log(config);
-    return config;
-  },
+  config => config,
   error => {
     Promise.reject(error);
   },
