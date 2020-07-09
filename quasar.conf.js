@@ -81,12 +81,20 @@ module.exports = function(/* ctx */) {
         'QCardActions',
         'QSeparator',
         'QUploader',
+        'QSplitter',
+        'QTree',
+        'QTabPanels',
+        'QTabPanel',
+        'QPopupEdit',
+        'QDialog',
+        'QBar',
+        'QTooltip',
       ],
 
-      directives: ['Ripple'],
+      directives: ['Ripple', 'ClosePopup'],
 
       // Quasar plugins
-      plugins: ['Notify'],
+      plugins: ['Notify', 'Dialog'],
       config: {
         notify: {
           color: 'green-4',

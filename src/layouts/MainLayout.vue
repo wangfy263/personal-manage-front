@@ -36,6 +36,15 @@
               <router-link to="/addExpend">添加支出</router-link>
             </q-item-section>
           </q-item>
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="inbox" />
+            </q-item-section>
+
+            <q-item-section>
+              <router-link to="/mangeDicts">字典管理</router-link>
+            </q-item-section>
+          </q-item>
 
           <q-item active clickable v-ripple>
             <q-item-section avatar>
@@ -71,12 +80,12 @@
 
       <q-img
         class="absolute-top"
-        src="https://cdn.quasar.dev/img/material.png"
+        src="@/assets/img/material.png"
         style="height: 150px"
       >
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <img src="@/assets/img/boy-avatar.png" />
           </q-avatar>
           <div class="text-weight-bold">wangfy</div>
           <div>@rstoenescu</div>

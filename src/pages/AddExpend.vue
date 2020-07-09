@@ -71,11 +71,6 @@
     </q-form>
   </div>
 </template>
-<style scoped>
-.col-mgr-100 {
-  margin-right: 10px;
-}
-</style>
 <script>
 import { mapGetters } from 'vuex';
 import { date } from 'quasar';
