@@ -240,7 +240,7 @@ export default {
         if (res.retCode === '000000') {
           this.data = res.data.map(item => {
             const each = item;
-            each.expend_money = Number(item.expend_money) / 100.0;
+            each.expend_money = `¥${Number(item.expend_money) / 100.0}`;
             each.type_level_first = this.enumsMap[item.type_level_first].name;
             each.type_level_second = this.enumsMap[item.type_level_second].name;
             [each.expend_time] = item.expend_time.split(' ');
