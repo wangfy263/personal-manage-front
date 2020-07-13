@@ -11,10 +11,13 @@ const path = require('path');
 
 module.exports = function(/* ctx */) {
   return {
+    vendor: {
+      add: ['src/plugins/vuelidate'],
+    },
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
-    boot: ['axios'],
+    boot: ['axios','vuelidate'],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: ['app.sass'],
@@ -89,6 +92,7 @@ module.exports = function(/* ctx */) {
         'QDialog',
         'QBar',
         'QTooltip',
+        'QSpinnerHourglass'
       ],
 
       directives: ['Ripple', 'ClosePopup'],

@@ -63,6 +63,7 @@ module.exports = {
     'arrow-parens': ['error', 'as-needed'],
     'no-console': ['error', { allow: ['log', 'warn', 'error'] }],
     'comma-dangle': 'off',
+    'max-len': ["error", 150],
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',

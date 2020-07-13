@@ -1,14 +1,20 @@
 const routes = [
   {
     path: '/',
+    name: 'Index',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
+      { path: '/', component: () => import('pages/Index.vue') },
       { path: '/addExpend', component: () => import('pages/AddExpend.vue') },
       { path: '/detailExpend', component: () => import('pages/DetailExpend.vue') },
       { path: '/mangeDicts', component: () => import('pages/dictionary/DictsManage.vue') },
     ],
   },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('components/Login.vue'),
+  }
 ];
 
 // Always leave this as last one

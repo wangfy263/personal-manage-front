@@ -1,4 +1,8 @@
 import { arrayToMap2 } from '@/utils/common';
+
+export function isLogin(state) {
+  return state.isLogin;
+}
 /**
  * 通过参数查询对应的
  * @param {*} state
