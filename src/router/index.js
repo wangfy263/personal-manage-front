@@ -32,7 +32,9 @@ export default function ({ store /* , ssrContext */ }) {
 
   Router.beforeEach((to, from, next) => {
     const isLogin = store.getters['Personal/isLogin'];
-    if (!isLogin && to.name !== LOGIN_PAGE_NAME) {
+    // eslint-disable-next-line
+    if (from.name === to.name) {
+    } else if (!isLogin && to.name !== LOGIN_PAGE_NAME) {
       // 未登录且要跳转的页面不是登录页
       next({
         name: LOGIN_PAGE_NAME, // 跳转到登录页

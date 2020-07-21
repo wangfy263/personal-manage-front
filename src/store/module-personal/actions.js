@@ -1,4 +1,4 @@
-import { dictionaries } from '../../services/personal';
+import { dictionaries } from '../../services/expends';
 
 export async function getEnums({ commit }) {
   const res = await dictionaries({});
@@ -10,15 +10,11 @@ export async function getEnums({ commit }) {
 export async function LoginByUserName({ commit }, userinfo) {
   const username = userinfo.username.trim();
   const password = userinfo.password.trim();
-  console.log(username);
-  console.log(password);
+  console.log(username, password);
   if (username === 'wangfy' && password === '789123') {
-    console.log(123);
     commit('SET_LOGIN', true);
-    console.log(567);
     return Promise.resolve(true);
   }
-  console.log(234);
   return Promise.reject(false);
 
   // return new Promise((resolve, reject) => {

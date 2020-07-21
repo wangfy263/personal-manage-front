@@ -9,34 +9,15 @@
 
       <div class="row">
         <div class="col col-mg-20">
-          <q-select
-            outlined
-            standout="bg-teal text-white"
-            v-model="form.level1Res"
-            :options="level1Options"
-            label="一级分类"
-          />
+          <q-select outlined standout="bg-teal text-white" v-model="form.level1Res" :options="level1Options" label="一级分类" />
         </div>
         <div class="col col-mg-20">
-          <q-select
-            outlined
-            standout="bg-teal text-white"
-            v-model="form.level2Res"
-            :options="level2Options"
-            label="二级分类"
-          />
+          <q-select outlined standout="bg-teal text-white" v-model="form.level2Res" :options="level2Options" label="二级分类" />
         </div>
       </div>
       <div class="row">
         <div class="col col-mg-20">
-          <q-input
-            outlined
-            standout="bg-teal text-white"
-            v-model="form.startDate"
-            label="开始时间"
-            mask="date"
-            :rules="['date']"
-          >
+          <q-input outlined standout="bg-teal text-white" v-model="form.startDate" label="开始时间" mask="date" :rules="['date']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -47,14 +28,7 @@
           </q-input>
         </div>
         <div class="col col-mg-20">
-          <q-input
-            outlined
-            standout="bg-teal text-white"
-            v-model="form.endDate"
-            label="结束时间"
-            mask="date"
-            :rules="['date']"
-          >
+          <q-input outlined standout="bg-teal text-white" v-model="form.endDate" label="结束时间" mask="date" :rules="['date']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -104,16 +78,15 @@
           option-value="name"
           style="min-width: 150px"
         />
-        <q-btn
-          flat
-          round
-          dense
-          :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-          @click="props.toggleFullscreen"
-          class="q-ml-md"
-        />
+        <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
       </template>
     </q-table>
+    <q-page-sticky position="bottom-right" :offset="[18, 38]">
+      <q-fab color="purple" icon="keyboard_arrow_up" direction="up">
+        <q-fab-action color="primary" @click="$router.push({ name: 'addExpend' })" icon="add" />
+        <!-- <q-fab-action color="secondary" @click="onClick" icon="find_in_page" /> -->
+      </q-fab>
+    </q-page-sticky>
   </div>
 </template>
 <style lang="sass">
@@ -144,7 +117,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { date } from 'quasar';
-import { getListExpends } from '@/services/personal';
+import { getListExpends } from '@/services/expends';
 import { getMonthFirstAndEnd } from '@/utils/common';
 
 export default {
@@ -157,13 +130,7 @@ export default {
         endDate: date.formatDate(Date.now(), 'YYYY/MM/DD'),
         remark: '',
       },
-      visibleColumns: [
-        'type_level_first',
-        'type_level_second',
-        'expend_money',
-        'expend_time',
-        'remark',
-      ],
+      visibleColumns: ['type_level_first', 'type_level_second', 'expend_money', 'expend_time', 'remark'],
       pagination: {
         sortBy: 'desc',
         descending: false,

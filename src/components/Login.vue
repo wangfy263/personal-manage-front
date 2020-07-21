@@ -153,13 +153,11 @@ export default {
       this.$store
         .dispatch('Personal/LoginByUserName', this.form)
         .then(() => {
-          console.log(789);
           if (this.interval) {
             clearInterval(this.interval);
             this.interval = null;
           }
           this.loading = false;
-          console.log(this.$router.push);
           this.$router.push({ name: 'Index' });
         })
         .catch(() => {

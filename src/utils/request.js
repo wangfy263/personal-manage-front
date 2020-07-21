@@ -35,7 +35,7 @@ service.interceptors.request.use(
   config => config,
   error => {
     Promise.reject(error);
-  },
+  }
 );
 
 service.interceptors.response.use(
@@ -43,6 +43,9 @@ service.interceptors.response.use(
     const res = response.data;
     return res;
   },
-  () => Promise.resolve({ retCode: '-1', retMsg: '系统异常！' }),
+  () => Promise.resolve({
+    retCode: '-1',
+    retMsg: '系统异常！',
+  })
 );
 export default service;

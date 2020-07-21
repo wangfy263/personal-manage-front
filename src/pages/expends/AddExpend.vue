@@ -1,5 +1,14 @@
 <template>
   <div>
+    <q-banner inline-actions class="text-primary bg-white">
+      <template v-slot:avatar>
+        <q-icon name="help_outline" color="primary" style="font-size: 2em;"/>
+      </template>
+      没有找到合适的类型？这里可以管理你的支出类型
+      <template v-slot:action>
+        <q-btn flat color="primary" label="to manage expend type" @click="$router.push({name: 'dicts'})"/>
+      </template>
+    </q-banner>
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
       <div class="row">
         <div class="col col-mgr-100">
@@ -34,21 +43,11 @@
             v-model="form.money"
             label="金额"
             lazy-rules
-            :rules="[
-              val => (val !== null && val !== '') || 'not empty',
-              val => val > 0 || 'It has to be greater than 0',
-            ]"
+            :rules="[val => (val !== null && val !== '') || 'not empty', val => val > 0 || 'It has to be greater than 0']"
           />
         </div>
         <div class="col col-mgr-100">
-          <q-input
-            outlined
-            standout="bg-teal text-white"
-            v-model="form.date"
-            label="添加时间"
-            mask="date"
-            :rules="['date']"
-          >
+          <q-input outlined standout="bg-teal text-white" v-model="form.date" label="添加时间" mask="date" :rules="['date']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -67,6 +66,7 @@
       <div>
         <q-btn label="Submit" type="submit" color="primary" />
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+        <q-btn label="Return" color="primary" flat class="q-ml-sm" @click="$router.push('detailExpend')" />
       </div>
     </q-form>
   </div>
@@ -74,7 +74,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { date } from 'quasar';
-import { addExpends } from '@/services/personal';
+import { addExpends } from '@/services/expends';
 
 export default {
   data() {

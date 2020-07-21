@@ -81,7 +81,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { addDicts } from '@/services/personal';
+import { addDicts } from '@/services/expends';
 
 export default {
   data() {

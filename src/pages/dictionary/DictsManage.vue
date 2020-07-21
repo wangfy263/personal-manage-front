@@ -170,7 +170,7 @@
 import { mapGetters } from 'vuex';
 import { dictIcons } from '@/utils/static';
 import addDialog from '@/pages/dictionary/AddDialog';
-import { updDicts, delDicts } from '@/services/personal';
+import { updDicts, delDicts } from '@/services/expends';
 
 export default {
   components: {

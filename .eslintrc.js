@@ -64,6 +64,12 @@ module.exports = {
     'no-console': ['error', { allow: ['log', 'warn', 'error'] }],
     'comma-dangle': 'off',
     'max-len': ["error", 150],
+    "object-curly-newline": ["error", {
+      "ObjectPattern": { "multiline": true }
+    }],
+    "vue/no-use-v-if-with-v-for": ["off", {
+      "allowUsingIterationVar": false
+    }],
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',

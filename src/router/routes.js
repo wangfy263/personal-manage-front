@@ -1,13 +1,16 @@
 const routes = [
   {
     path: '/',
-    name: 'Index',
-    component: () => import('layouts/MainLayout.vue'),
+    redirect: '/index',
+    component: () => import('layouts/BasicLayout.vue'),
     children: [
-      { path: '/', component: () => import('pages/Index.vue') },
-      { path: '/addExpend', component: () => import('pages/AddExpend.vue') },
-      { path: '/detailExpend', component: () => import('pages/DetailExpend.vue') },
-      { path: '/mangeDicts', component: () => import('pages/dictionary/DictsManage.vue') },
+      { path: '/index', name: 'Index', component: () => import('pages/Index.vue') },
+      { path: '/expend/addExpend', name: 'addExpend', component: () => import('pages/expends/AddExpend.vue') },
+      { path: '/expend/detailExpend', name: 'detailExpend', component: () => import('pages/expends/DetailExpend.vue') },
+      { path: '/expend/mangeDicts', name: 'dicts', component: () => import('pages/dictionary/DictsManage.vue') },
+      { path: '/target/targetList', name: 'target', component: () => import('pages/targets/TargetList.vue') },
+      { path: '/target/plan', name: 'plan', component: () => import('pages/targets/TargetPlan.vue') },
+      { path: '/target/targetDetail', name: 'targetDetail', component: () => import('pages/targets/TargetDetail.vue') },
     ],
   },
   {

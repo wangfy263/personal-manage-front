@@ -3,6 +3,12 @@ import { arrayToMap2 } from '@/utils/common';
 export function isLogin(state) {
   return state.isLogin;
 }
+export function rightDrawerOpen(state) {
+  return state.rightDrawerOpen;
+}
+export function rightSideFlag(state) {
+  return state.rightSideFlag;
+}
 /**
  * 通过参数查询对应的
  * @param {*} state
