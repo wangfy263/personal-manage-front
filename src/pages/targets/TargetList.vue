@@ -14,8 +14,7 @@
       <template v-slot:top-right>
         请选择:
         <q-tabs v-model="tab" no-caps>
-          <q-tab class="text-primary" :name="1" label="已完成" />
-          <q-tab class="text-primary" :name="0" label="未完成" />
+          <q-tab class="text-primary" v-for="(item, index) in finishOptions" :name="item.value" :label="item.label" :key="index"/>
         </q-tabs>
       </template>
 
@@ -38,8 +37,8 @@
               </q-item>
             </q-list>
             <q-card-actions align="right">
-              <q-btn flat @click="$router.push({ name: 'targetDetail' })">目标详情</q-btn>
-              <q-btn flat @click="$router.push({ name: 'plan' })">制定计划</q-btn>
+              <q-btn flat @click="$router.push({ name: 'targetDetail', params: { targetId: props.row.target_id } })">目标详情</q-btn>
+              <q-btn flat @click="$router.push({ name: 'plan', params: { targetId: props.row.target_id }})">制定计划</q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -57,6 +56,7 @@
   transition: transform .28s, background-color .28s
 </style>
 <script>
+import { mapGetters } from 'vuex';
 import { findAllTargets } from '@/services/targets';
 
 export default {
@@ -79,7 +79,7 @@ export default {
         { name: 'target_measurable', label: '衡量标准', field: 'target_measurable' },
         { name: 'target_time_bound', label: '计划完成时间', field: 'target_time_bound' },
         { name: 'target_time_bound_real', label: '实际完成时间', field: 'target_time_bound_real' },
-        { name: 'target_state', label: '目标状态', field: 'target_state' },
+        { name: 'target_state', label: '目标状态', field: 'target_state_name' },
         { name: 'target_level', label: '目标级别', field: 'target_level' },
       ],
       data: [
@@ -100,6 +100,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      finishOptions: 'Personal/finishOptions',
+      finishOptionsMap: 'Personal/finishOptionsMap',
+    }),
     targetData() {
       return this.data.filter(item => item.target_state === this.tab);
     },
@@ -115,6 +119,7 @@ export default {
             const each = item;
             each.name = item.target_title;
             each.target_level = `${item.target_level}级`;
+            each.target_state_name = this.finishOptionsMap[item.target_state];
             return each;
           });
         }

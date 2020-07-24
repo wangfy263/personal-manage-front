@@ -1,4 +1,4 @@
-import { arrayToMap2 } from '@/utils/common';
+import { arrayToMap2, arrayToMap } from '@/utils/common';
 
 export function isLogin(state) {
   return state.isLogin;
@@ -8,6 +8,15 @@ export function rightDrawerOpen(state) {
 }
 export function rightSideFlag(state) {
   return state.rightSideFlag;
+}
+export function finishOptions(state) {
+  return state.finishOptions;
+}
+export function finishOptionsMap(state) {
+  return arrayToMap(state.finishOptions, 'value', 'label');
+}
+export function levelColors(state) {
+  return state.levelColors;
 }
 /**
  * 通过参数查询对应的

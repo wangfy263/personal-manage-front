@@ -107,6 +107,8 @@ module.exports = function(/* ctx */) {
         'QStepper',
         'QStep',
         'QStepperNavigation',
+        'QBtnDropdown',
+        'QChip',
       ],
 
       directives: ['Ripple', 'ClosePopup'],

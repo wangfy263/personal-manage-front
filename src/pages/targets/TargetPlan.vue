@@ -99,7 +99,7 @@
         </q-card>
 
         <q-stepper-navigation>
-          <q-btn color="primary" label="Finish" />
+          <q-btn color="primary" label="Finish" @click="onSubmit()" />
           <q-btn flat @click="step = 3" color="primary" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
@@ -110,7 +110,7 @@
 import { date } from 'quasar';
 import { getMonthFirstAndEnd } from '@/utils/common';
 import TaskList from '@/components/TaskList';
-// import { addTarget } from '@/services/targets';
+import { addPlan } from '@/services/targets';
 
 export default {
   components: {
@@ -118,6 +118,7 @@ export default {
   },
   data() {
     return {
+      targetId: 0,
       step: 1,
       form: {
         plan_profile: '适当运动+控制饮食',
@@ -131,22 +132,23 @@ export default {
       proxyDate: new Date(),
     };
   },
-  // computed: {
-  //   events() {
-
-  //   }
-  // },
   mounted() {
+    this.targetId = this.$route.params.targetId;
     const sae = getMonthFirstAndEnd();
     this.form.plan_end_date = date.formatDate(sae.end, 'YYYY/MM/DD');
   },
   methods: {
     onSubmit() {
-      // addTarget(this.form).then(res => {
-      //   if (res.retCode === '000000') {
-      //     this.$q.notify('保存成功！');
-      //   }
-      // });
+      const param = this.form;
+      param.target_id = this.targetId;
+      param.plan_type = 0;
+      param.tasks = this.taskContentList;
+      addPlan(param).then(res => {
+        if (res.retCode === '000000') {
+          this.$q.notify('保存成功！');
+          this.$router.push({ name: 'targetDetail' });
+        }
+      });
     },
     onReset() {
       this.form.plan_profile = '';
