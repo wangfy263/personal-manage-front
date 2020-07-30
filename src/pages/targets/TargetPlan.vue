@@ -46,6 +46,9 @@
             lazy-rules
             :rules="[val => val && val.length > 0]"
           >
+            <!-- <template v-slot:append>
+              <q-icon name="event" color="orange" />
+            </template> -->
             <template v-slot:after v-if="index === tasks.length - 1 && tasks.length < 5">
               <q-icon name="add" @click="addTask()" />
             </template>
@@ -60,11 +63,50 @@
         </q-stepper-navigation>
       </q-step>
 
-      <q-step :name="3" title="日期设置" caption="可自行调整执行日期，默认每天执行" icon="assignment" :done="step > 3">
+      <!-- <q-step :name="3" title="任务分类" caption="设置任务的紧急重要类别" icon="create_new_folder" :done="step > 3">
+        <q-form ref="formTaskType">
+          <q-input borderless autogrow readonly v-model="tasks[index]" v-for="(task, index) in tasks" :key="index">
+            <template v-slot:after v-if="index === tasks.length - 1 && tasks.length < 5">
+              <q-btn-dropdown flat size="xs" color="primary" label="select">
+                <q-list>
+                  <q-item clickable v-close-popup @click="onItemClick('')">
+                    <q-item-section>
+                      <q-item-label color="secondary">重要紧急</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item clickable v-close-popup @click="onItemClick">
+                    <q-item-section>
+                      <q-item-label>重要不紧急</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item clickable v-close-popup @click="onItemClick">
+                    <q-item-section>
+                      <q-item-label>紧急不重要</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-item clickable v-close-popup @click="onItemClick">
+                    <q-item-section>
+                      <q-item-label>不紧急不重要</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </template>
+          </q-input>
+        </q-form>
+        <q-stepper-navigation>
+          <q-btn @click="clickStep('formTask', 3)" color="primary" label="Continue" :done="step > 2" />
+          <q-btn flat @click="step = 1" color="primary" label="Back" class="q-ml-sm" />
+        </q-stepper-navigation>
+      </q-step> -->
+
+      <q-step :name="3" title="日期设置" caption="可自行调整执行日期，默认每天执行" icon="assignment" :done="step > 4">
         <task-list ref="taskList" :taskMap="taskMap" :startDate="form.plan_start_date" :endDate="form.plan_end_date" v-on:taskBlock="taskBlock" />
         <q-stepper-navigation>
           <q-btn @click="clickStep('', 4)" color="primary" label="Continue" />
-          <q-btn flat @click="step = 2" color="primary" label="Back" class="q-ml-sm" />
+          <q-btn flat @click="step = 3" color="primary" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
 
@@ -100,7 +142,7 @@
 
         <q-stepper-navigation>
           <q-btn color="primary" label="Finish" @click="onSubmit()" />
-          <q-btn flat @click="step = 3" color="primary" label="Back" class="q-ml-sm" />
+          <q-btn flat @click="step = 4" color="primary" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
     </q-stepper>
@@ -185,7 +227,6 @@ export default {
             }
           });
         }
-        console.log(map);
         this.taskContentList = map;
       }
       if (ref) {

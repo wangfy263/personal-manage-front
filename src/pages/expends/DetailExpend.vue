@@ -50,7 +50,7 @@
       :data="data"
       :columns="columns"
       row-key="name"
-      separator="vertical"
+      separator="cell"
       :pagination.sync="pagination"
       :visible-columns="visibleColumns"
     >
@@ -79,6 +79,13 @@
           style="min-width: 150px"
         />
         <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
+      </template>
+      <template v-slot:top-row>
+        <q-tr>
+          <q-td colspan="100%">
+            支出金额合计: ¥{{total / 100}}
+          </q-td>
+        </q-tr>
       </template>
     </q-table>
     <q-page-sticky position="bottom-right" :offset="[18, 38]">
@@ -130,6 +137,7 @@ export default {
         endDate: date.formatDate(Date.now(), 'YYYY/MM/DD'),
         remark: '',
       },
+      total: 0,
       visibleColumns: ['type_level_first', 'type_level_second', 'expend_money', 'expend_time', 'remark'],
       pagination: {
         sortBy: 'desc',
@@ -198,6 +206,7 @@ export default {
   },
   methods: {
     getListExpend(data) {
+      this.total = 0;
       const param = JSON.parse(JSON.stringify(data));
       param.level1Res = this.form.level1Res.code;
       param.level2Res = this.form.level2Res.code;
@@ -207,6 +216,8 @@ export default {
         if (res.retCode === '000000') {
           this.data = res.data.map(item => {
             const each = item;
+            const money = Number(item.expend_money);
+            this.total += money;
             each.expend_money = `¥${Number(item.expend_money) / 100.0}`;
             each.type_level_first = this.enumsMap[item.type_level_first].name;
             each.type_level_second = this.enumsMap[item.type_level_second].name;

@@ -13,8 +13,11 @@
       <template v-slot:top>
         <div class="q-table__title">
           【计划】{{ target.target_title }}
-          <q-chip outline size="xs" :color="levelColors[target.target_level]" text-color="white" icon="bookmark"> {{ target.target_level }}级 </q-chip>
+          <q-chip outline size="xs" :color="levelColors[target.target_level]" text-color="white" icon="bookmark">
+            {{ target.target_level }}级
+          </q-chip>
         </div>
+        <!-- <div class="text-subtitle2">{{ target.target_content }}</div> -->
       </template>
       <template v-slot:top-right>
         请选择:
@@ -260,7 +263,7 @@ export default {
             const each = item;
             each.linearProgress = {};
             each.linearProgress.progress = this.calculate(item.plan_start_date, item.plan_end_date);
-            each.linearProgress.progressLabel = `${each.linearProgress.progress * 100}%`;
+            each.linearProgress.progressLabel = `${(each.linearProgress.progress * 100).toFixed(2)}%`;
             return each;
           });
           [this.target] = res.data.targets.filter(item => item.target_id === id);
@@ -274,13 +277,13 @@ export default {
       let result = 0;
       const dateNormalized = date.getDateBetween(current, dateMin, dateMax);
       if (date.isSameDate(dateMin, dateNormalized)) {
-        result = 0.0;
+        result = 0;
       } else if (date.isSameDate(dateMax, dateNormalized)) {
-        result = 1.0;
+        result = 1;
       } else {
         const diffAll = date.getDateDiff(dateMax, dateMin, 'days');
         const diffToday = date.getDateDiff(current, dateMin, 'days');
-        result = Number((diffToday / diffAll).toFixed(2));
+        result = diffToday / diffAll;
       }
       return result;
     },

@@ -7,13 +7,13 @@
     <div class="q-pa-md">
       <div class="q-gutter-md" style="display: flex; flex-wrap: wrap; justify-content: space-around">
         <q-date v-model="date" :options="options" :events="events" />
-        <q-list bordered padding style="max-width: 650px; min-width: 290px">
+        <q-list bordered padding style="max-width: 650px; min-width: 285px">
           <q-item-label header>任务列表</q-item-label>
           <div v-if="dateTask.length > 0">
             <q-item tag="label" v-ripple v-for="(task, index) in dateTask" :key="index">
-              <q-item-section side top>
-                <q-btn class="gt-xs" color="positive" size="10px" flat dense round icon="done" v-if="task.task_state" />
-                <q-btn class="gt-xs" color="primary" size="10px" flat dense round icon="access_alarms" v-else />
+              <q-item-section avatar top>
+                <q-btn color="positive" flat dense round icon="done" v-if="task.task_state" />
+                <q-btn color="primary" flat dense round icon="access_alarms" v-else />
               </q-item-section>
 
               <q-item-section>
@@ -25,14 +25,12 @@
               <q-item-section side top>
                 <div class="text-grey-8 q-gutter-xs">
                   <q-btn
-                    class="gt-xs"
                     color="primary"
-                    size="12px"
                     flat
                     dense
                     round
                     icon="done"
-                    v-if="!task.task_state"
+                    v-if="!task.task_state && isOverTime"
                     @click="doneTask(task.task_id)"
                   />
                   <!-- <q-btn size="12px" flat dense round icon="more_vert" /> -->
@@ -100,6 +98,16 @@ export default {
     },
     dateTask() {
       return this.tasks.filter(item => item.task_date.replace(/-/g, '/') === this.date);
+    },
+    isOverTime() {
+      const dateTarget = new Date(this.date);
+      const dateFrom = date.adjustDate(new Date(), { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
+      const dateTo = new Date(this.plan.plan_end_date);
+      // console.log(dateTarget);
+      // console.log(dateFrom);
+      // console.log(dateTo);
+      // console.log(date.isBetweenDates(dateTarget, dateFrom, dateTo, { inclusiveFrom: true, inclusiveTo: true }));
+      return date.isBetweenDates(dateTarget, dateFrom, dateTo, { inclusiveFrom: true, inclusiveTo: true });
     },
   },
   methods: {

@@ -28,11 +28,11 @@
             <q-separator />
             <q-list dense>
               <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
-                <q-item-section>
+                <q-item-section no-wrap>
                   <q-item-label>{{ col.label }}</q-item-label>
                 </q-item-section>
                 <q-item-section side>
-                  <q-item-label caption>{{ col.value }}</q-item-label>
+                  <q-item-label caption lines="1">{{ col.value }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>

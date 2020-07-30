@@ -199,7 +199,7 @@
       no-swipe-close
       bordered
       overlay
-      :width="350"
+      :width="300"
       content-class="bg-grey-3"
       @click="rightDrawerOpen = false"
     >
