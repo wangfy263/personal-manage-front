@@ -39,7 +39,7 @@
             square
             outlined
             autogrow
-            v-model="tasks[index]"
+            v-model="tasks[index].content"
             v-for="(task, index) in tasks"
             :key="index"
             :label="`任务${index + 1}`"
@@ -58,59 +58,65 @@
           </q-input>
         </q-form>
         <q-stepper-navigation>
-          <q-btn @click="clickStep('formTask', 3)" color="primary" label="Continue" :done="step > 2" />
+          <q-btn @click="clickStep('formTask', 3)" color="primary" label="Continue" />
           <q-btn flat @click="step = 1" color="primary" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
 
-      <!-- <q-step :name="3" title="任务分类" caption="设置任务的紧急重要类别" icon="create_new_folder" :done="step > 3">
-        <q-form ref="formTaskType">
-          <q-input borderless autogrow readonly v-model="tasks[index]" v-for="(task, index) in tasks" :key="index">
-            <template v-slot:after v-if="index === tasks.length - 1 && tasks.length < 5">
-              <q-btn-dropdown flat size="xs" color="primary" label="select">
-                <q-list>
-                  <q-item clickable v-close-popup @click="onItemClick('')">
-                    <q-item-section>
-                      <q-item-label color="secondary">重要紧急</q-item-label>
-                    </q-item-section>
-                  </q-item>
-
-                  <q-item clickable v-close-popup @click="onItemClick">
-                    <q-item-section>
-                      <q-item-label>重要不紧急</q-item-label>
-                    </q-item-section>
-                  </q-item>
-
-                  <q-item clickable v-close-popup @click="onItemClick">
-                    <q-item-section>
-                      <q-item-label>紧急不重要</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup @click="onItemClick">
-                    <q-item-section>
-                      <q-item-label>不紧急不重要</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
-            </template>
-          </q-input>
-        </q-form>
-        <q-stepper-navigation>
-          <q-btn @click="clickStep('formTask', 3)" color="primary" label="Continue" :done="step > 2" />
-          <q-btn flat @click="step = 1" color="primary" label="Back" class="q-ml-sm" />
-        </q-stepper-navigation>
-      </q-step> -->
-
-      <q-step :name="3" title="日期设置" caption="可自行调整执行日期，默认每天执行" icon="assignment" :done="step > 4">
-        <task-list ref="taskList" :taskMap="taskMap" :startDate="form.plan_start_date" :endDate="form.plan_end_date" v-on:taskBlock="taskBlock" />
+      <q-step :name="3" title="任务分类" caption="设置任务的紧急重要类别" icon="create_new_folder" :done="step > 3">
+        <q-list bordered>
+          <q-item clickable v-ripple v-for="(task, index) in tasks" :key="index">
+            <q-item-section>{{ task.content }}</q-item-section>
+            <q-item-section avatar>
+              <q-chip class="glossy" square color="teal" text-color="white" icon="bookmark">
+                {{ task.important | getImportant }}
+                <q-popup-proxy transition-show="flip-up" transition-hide="flip-down">
+                  <div>
+                    <q-banner inline-actions class="bg-teal-7 text-white" style="width: 100%">
+                      重要紧急
+                      <template v-slot:action>
+                        <q-btn flat color="white" label="SELECT" @click="task.important = 1" />
+                      </template>
+                    </q-banner>
+                    <q-banner inline-actions class="bg-teal-5 text-white" style="width: 100%">
+                      重要不紧急
+                      <template v-slot:action>
+                        <q-btn flat color="white" label="SELECT" @click="task.important = 2" />
+                      </template>
+                    </q-banner>
+                    <q-banner inline-actions class="bg-teal-3 text-black" style="width: 100%">
+                      紧急不重要
+                      <template v-slot:action>
+                        <q-btn flat color="black" label="SELECT" @click="task.important = 3" />
+                      </template>
+                    </q-banner>
+                    <q-banner inline-actions class="bg-teal-1 text-black" style="width: 100%">
+                      不紧急不重要
+                      <template v-slot:action>
+                        <q-btn flat color="black" label="SELECT" @click="task.important = 4" />
+                      </template>
+                    </q-banner>
+                  </div>
+                </q-popup-proxy>
+              </q-chip>
+            </q-item-section>
+          </q-item>
+        </q-list>
         <q-stepper-navigation>
           <q-btn @click="clickStep('', 4)" color="primary" label="Continue" />
+          <q-btn flat @click="step = 2" color="primary" label="Back" class="q-ml-sm" />
+        </q-stepper-navigation>
+      </q-step>
+
+      <q-step :name="4" title="日期设置" caption="可自行调整执行日期，默认每天执行" icon="assignment" :done="step > 4">
+        <task-list ref="taskList" :taskMap="taskMap" :startDate="form.plan_start_date" :endDate="form.plan_end_date" v-on:taskBlock="taskBlock" />
+        <q-stepper-navigation>
+          <q-btn @click="clickStep('', 5)" color="primary" label="Continue" />
           <q-btn flat @click="step = 3" color="primary" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
 
-      <q-step :name="4" title="查看详情" icon="add_comment">
+      <q-step :name="5" title="查看详情" icon="add_comment">
         <q-card flat>
           <q-list dense>
             <q-item>
@@ -128,12 +134,12 @@
           <q-separator />
           <q-item tag="label" v-ripple v-for="(item, index) in tasks" :key="index">
             <q-item-section>
-              <q-item-label>{{ item }}</q-item-label>
+              <q-item-label>{{ item.content }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-btn flat icon="event" round color="primary">
                 <q-popup-proxy transition-show="scale" transition-hide="scale">
-                  <q-date v-model="proxyDate" minimal :events="taskContentList[item]"></q-date>
+                  <q-date v-model="proxyDate" minimal :events="taskContentList[item.content] ? taskContentList[item.content].dates : []"></q-date>
                 </q-popup-proxy>
               </q-btn>
             </q-item-section>
@@ -168,7 +174,7 @@ export default {
         plan_start_date: date.formatDate(Date.now(), 'YYYY/MM/DD'),
         plan_end_date: '',
       },
-      tasks: [''],
+      tasks: [{ content: '', important: 0 }],
       taskMap: {},
       taskContentList: {},
       proxyDate: new Date(),
@@ -188,7 +194,7 @@ export default {
       addPlan(param).then(res => {
         if (res.retCode === '000000') {
           this.$q.notify('保存成功！');
-          this.$router.push({ name: 'targetDetail' });
+          this.$router.push({ name: 'targetDetail', params: { targetId: this.targetId } });
         }
       });
     },
@@ -200,30 +206,59 @@ export default {
     },
     clickStep(ref, step) {
       if (step === 3) {
+        // const from = new Date(this.form.plan_start_date);
+        // const to = new Date(this.form.plan_end_date);
+        // let newDate = new Date(this.form.plan_start_date);
+        // while (date.isBetweenDates(newDate, from, to, { inclusiveFrom: true, inclusiveTo: true })) {
+        //   this.taskMap[date.formatDate(newDate, 'YYYY/MM/DD')] = this.tasks.map(item => {
+        //     const each = {};
+        //     each.content = item.content;
+        //     each.check = true;
+        //     return each;
+        //   });
+        //   newDate = date.addToDate(newDate, { days: 1 });
+        // }
+      }
+      if (step === 4) {
+        // 重要性选择验证
+        const isImp = this.tasks.every(item => item.important);
+        if (!isImp) {
+          this.$q.notify({
+            type: 'negative',
+            message: '请选择任务类别!',
+          });
+          return;
+        }
         const from = new Date(this.form.plan_start_date);
         const to = new Date(this.form.plan_end_date);
         let newDate = new Date(this.form.plan_start_date);
         while (date.isBetweenDates(newDate, from, to, { inclusiveFrom: true, inclusiveTo: true })) {
           this.taskMap[date.formatDate(newDate, 'YYYY/MM/DD')] = this.tasks.map(item => {
             const each = {};
-            each.content = item;
+            each.content = item.content;
+            each.important = item.important;
             each.check = true;
             return each;
           });
           newDate = date.addToDate(newDate, { days: 1 });
         }
       }
-      if (step === 4) {
+      if (step === 5) {
+        // 构造时间数据
         const map = {};
         const list = Object.keys(this.taskMap);
         for (let i = 0; i < list.length; i += 1) {
-          const newDate = list[i];
-          this.taskMap[newDate].forEach(item => {
+          const nDate = list[i];
+          this.taskMap[nDate].forEach(item => {
             if (!map[item.content]) {
-              map[item.content] = [];
+              map[item.content] = {
+                dates: [],
+                important: 0,
+              };
             }
             if (item.check) {
-              map[item.content].push(newDate);
+              map[item.content].dates.push(nDate);
+              map[item.content].important = item.important;
             }
           });
         }
@@ -242,7 +277,7 @@ export default {
     },
     addTask() {
       if (this.tasks.length < 5) {
-        this.tasks.push('');
+        this.tasks.push({ content: '', important: 0 });
       }
     },
     delTask(index) {
@@ -253,5 +288,19 @@ export default {
       this.$refs.taskList.$forceUpdate();
     },
   },
+  filters: {
+    getImportant(val) {
+      const array = ['', '重要紧急', '重要不紧急', '紧急不重要', '不紧急不重要'];
+      return val ? array[val] : '请选择';
+    },
+  },
+  // watch: {
+  //   tasks: {
+  //     handle: function() {
+
+  //     },
+  //     deep: true,
+  //   }
+  // }
 };
 </script>
