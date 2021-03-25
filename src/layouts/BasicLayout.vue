@@ -141,7 +141,28 @@
             <q-icon size="22px" name="collections_bookmark" />
             <div class="GPL__side-btn__label">Target</div>
           </q-btn>
-
+          <q-btn
+            round
+            flat
+            color="grey-8"
+            stack
+            no-caps
+            size="26px"
+            class="GPL__side-btn"
+            @click="
+              $router.push(
+                { name: 'swot' },
+                onComplete => {},
+                onAbort => {}
+              )
+            "
+          >
+            <q-icon size="22px" name="assistant" />
+            <div class="GPL__side-btn__label">swot</div>
+            <q-badge floating color="red" text-color="white" style="top: 8px; right: 16px">
+              1
+            </q-badge>
+          </q-btn>
           <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn" @click="$router.push({ name: 'planTableDaily' })">
             <q-icon size="22px" name="assistant" />
             <div class="GPL__side-btn__label">DailyTable</div>

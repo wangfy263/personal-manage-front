@@ -15,6 +15,9 @@ const routes = [
       { path: '/planTable/Weekly', name: 'planTableWeekly', component: () => import('pages/planTable/WeeklyTable.vue') },
       { path: '/planTable/Monthly', name: 'planTableMonthly', component: () => import('pages/planTable/MonthlyTable.vue') },
       { path: '/planTable/Yearly', name: 'planTableYearly', component: () => import('pages/planTable/YearlyTable.vue') },
+      { path: '/target/targetDetail', name: 'targetDetail', component: () => import('pages/targets/TargetDetail.vue') },
+      // 方法论
+      { path: '/methodology/swot', name: 'swot', component: () => import('pages/methodology/SwotAnalyse.vue') },
     ],
   },
   {
