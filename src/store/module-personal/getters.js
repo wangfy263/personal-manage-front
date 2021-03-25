@@ -9,6 +9,9 @@ export function rightDrawerOpen(state) {
 export function rightSideFlag(state) {
   return state.rightSideFlag;
 }
+export function rightSideOption(state) {
+  return state.rightSideOption;
+}
 export function finishOptions(state) {
   return state.finishOptions;
 }

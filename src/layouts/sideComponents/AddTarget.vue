@@ -58,6 +58,7 @@
 </template>
 <script>
 import { date } from 'quasar';
+import { mapGetters } from 'vuex';
 import { addTarget } from '@/services/targets';
 
 export default {
@@ -72,9 +73,16 @@ export default {
       },
     };
   },
-
+  computed: {
+    ...mapGetters({
+      option: 'Personal/rightSideOption',
+    }),
+  },
   methods: {
     onSubmit() {
+      if (this.option && this.option.parentId) {
+        this.form.parent_target_id = this.option.parentId;
+      }
       addTarget(this.form).then(res => {
         if (res.retCode === '000000') {
           this.$q.notify('保存成功！');

@@ -21,9 +21,9 @@
       <template v-slot:item="props">
         <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition" :style="props.selected ? 'transform: scale(0.95);' : ''">
           <q-card :class="props.selected ? 'bg-grey-2' : ''">
-            <q-card-section>
+            <q-card-section style="display: flex;justify-content: space-between;">
               <q-checkbox dense v-model="props.selected" :label="props.row.name" />
-              <div style="float: right">计划完成：{{ props.row.target_time_bound }}</div>
+              <div>{{ props.row.target_time_bound }}</div>
             </q-card-section>
             <q-separator />
             <q-list dense>
@@ -37,7 +37,8 @@
               </q-item>
             </q-list>
             <q-card-actions align="right">
-              <q-btn flat @click="$router.push({ name: 'targetDetail', params: { targetId: props.row.target_id } })">目标详情</q-btn>
+              <!-- <q-btn flat @click="$router.push({ name: 'targetDetail', params: { targetId: props.row.target_id } })">目标详情</q-btn> -->
+              <q-btn flat @click="$router.push({ path: '/target/targetDetail/' + props.row.target_id })">目标详情</q-btn>
               <q-btn flat @click="$router.push({ name: 'plan', params: { targetId: props.row.target_id }})">制定计划</q-btn>
             </q-card-actions>
           </q-card>
@@ -83,19 +84,19 @@ export default {
         { name: 'target_level', label: '目标级别', field: 'target_level' },
       ],
       data: [
-        {
-          name: '减肥',
-          target_id: 1,
-          target_title: '减肥',
-          target_content: '30天减重至80KG',
-          target_measurable: '体重 <= 80KG',
-          target_time_bound: '2020-07-30',
-          target_time_bound_real: '',
-          target_state: 0,
-          target_level: 0,
-          parent_target_id: 0,
-          create_time: '2020-07-12',
-        },
+        // {
+        //   name: '减肥',
+        //   target_id: 1,
+        //   target_title: '减肥',
+        //   target_content: '30天减重至80KG',
+        //   target_measurable: '体重 <= 80KG',
+        //   target_time_bound: '2020-07-30',
+        //   target_time_bound_real: '',
+        //   target_state: 0,
+        //   target_level: 0,
+        //   parent_target_id: 0,
+        //   create_time: '2020-07-12',
+        // },
       ],
     };
   },

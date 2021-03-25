@@ -15,7 +15,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
-    "quasar": "^1.0.0",
+    "quasar": "^1.14.3",
     "vuelidate": "^0.7.5",
     "xlsx": "^0.16.3"
   },

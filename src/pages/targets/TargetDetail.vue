@@ -1,114 +1,137 @@
 <template>
   <div class="q-pa-md">
-    <q-table
-      :data="planDataList"
-      :columns="planColumns"
-      row-key="plan_id"
-      selection="multiple"
-      :selected.sync="selectedPlan"
-      :pagination.sync="pagination"
-      grid
-      hide-header
-    >
-      <template v-slot:top>
-        <div class="q-table__title">
-          【计划】{{ target.target_title }}
-          <q-chip outline size="xs" :color="levelColors[target.target_level]" text-color="white" icon="bookmark">
-            {{ target.target_level }}级
-          </q-chip>
+    <q-card class="my-card">
+      <q-card-section class="flex-space-between">
+        <div>
+          <div class="text-h6">{{ target.target_title }}</div>
+          <div class="text-subtitle2">by wangfy</div>
         </div>
-        <!-- <div class="text-subtitle2">{{ target.target_content }}</div> -->
-      </template>
-      <template v-slot:top-right>
-        请选择:
-        <q-tabs v-model="tab" no-caps>
-          <q-tab class="text-primary" v-for="(item, index) in finishOptions" :name="item.value" :label="item.label" :key="index" />
-        </q-tabs>
-      </template>
-      <template v-slot:item="props">
-        <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition" :style="props.selected ? 'transform: scale(0.95);' : ''">
-          <q-card :class="props.selected ? 'bg-grey-2' : ''">
-            <q-card-section>
-              <q-list dense>
-                <q-item>
-                  <q-checkbox dense v-model="props.selected" :label="props.row.plan_profile" />
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    <q-item-label>{{ props.row.plan_start_date }} - {{ props.row.plan_end_date }}</q-item-label>
-                  </q-item-section>
-                  <q-item-section side>
-                    <q-item-label caption>
-                      {{ finishOptionsMap[props.row.plan_state] }}
-                    </q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-              <q-linear-progress size="25px" :value="props.row.linearProgress.progress" color="accent">
-                <div class="absolute-full flex flex-center">
-                  <q-badge color="white" text-color="accent" :label="props.row.linearProgress.progressLabel" />
-                </div>
-              </q-linear-progress>
-            </q-card-section>
-            <q-separator />
-            <q-card-section>
-              {{ props.row.plan_content }}
-            </q-card-section>
-          </q-card>
+        <div>
+          <div>状态： {{ target.target_state === 0 ? '未完成' : '已完成' }}</div>
+          <q-btn outline color="primary" label="我已完成" style="width:100%" size="sm" v-if="target.target_state === 0" />
         </div>
-      </template>
-    </q-table>
-    <task-date :planId="planId" :checkDate="checkDate" v-if="selectedPlan.length > 0" v-on:taskChange="taskChange" />
-    <q-table
-      :data="targetData"
-      :columns="targetColumns"
-      row-key="target_id"
-      selection="multiple"
-      :selected.sync="selectedChild"
-      :pagination.sync="pagination"
-      grid
-      hide-header
-    >
-      <template v-slot:top>
-        <div class="q-table__title">
-          【子目标】{{ target.target_title }}
-          <q-chip outline size="xs" :color="levelColors[target.target_level + 1]" text-color="white" icon="bookmark">
-            {{ target.target_level + 1 }}级
-          </q-chip>
-        </div>
-      </template>
-      <template v-slot:top-right>
-        请选择:
-        <q-tabs v-model="tab1" no-caps>
-          <q-tab class="text-primary" v-for="(item, index) in finishOptions" :name="item.value" :label="item.label" :key="index" />
-        </q-tabs>
-      </template>
-      <template v-slot:item="props">
-        <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition" :style="props.selected ? 'transform: scale(0.95);' : ''">
-          <q-card :class="props.selectedChild ? 'bg-grey-2' : ''">
-            <q-card-section>
-              <q-checkbox dense v-model="props.selected" :label="props.row.name" />
-              <div style="float: right">计划完成：{{ props.row.target_time_bound }}</div>
-            </q-card-section>
-            <q-separator />
-            <q-list dense>
-              <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
-                <q-item-section>
-                  <q-item-label>{{ col.label }}</q-item-label>
-                </q-item-section>
-                <q-item-section side>
-                  <q-item-label caption>{{ col.value }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-            <q-card-actions align="right">
-              <q-btn flat>目标详情</q-btn>
-              <q-btn flat>制定计划</q-btn>
-            </q-card-actions>
-          </q-card>
-        </div>
-      </template>
-    </q-table>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-actions vertical>
+        <q-table
+          :data="planDataList"
+          :columns="planColumns"
+          row-key="plan_id"
+          selection="multiple"
+          :selected.sync="selectedPlan"
+          :pagination.sync="pagination"
+          grid
+          hide-header
+        >
+          <template v-slot:top>
+            <div class="q-table__title">
+              【计划】{{ target.target_title }}
+              <q-chip outline size="xs" :color="levelColors[target.target_level]" text-color="white" icon="bookmark">
+                {{ target.target_level }}级
+              </q-chip>
+            </div>
+            <!-- <div class="text-subtitle2">{{ target.target_content }}</div> -->
+          </template>
+          <template v-slot:top-right>
+            请选择:
+            <q-tabs v-model="tab" no-caps>
+              <q-tab class="text-primary" v-for="(item, index) in finishOptions" :name="item.value" :label="item.label" :key="index" />
+            </q-tabs>
+          </template>
+          <template v-slot:item="props">
+            <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition" :style="props.selected ? 'transform: scale(0.95);' : ''">
+              <q-card :class="props.selected ? 'bg-grey-2' : ''">
+                <q-card-section>
+                  <q-list dense>
+                    <q-item>
+                      <q-checkbox dense v-model="props.selected" :label="props.row.plan_profile" />
+                    </q-item>
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label>{{ props.row.plan_start_date }} - {{ props.row.plan_end_date }}</q-item-label>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-item-label caption>
+                          {{ finishOptionsMap[props.row.plan_state] }}
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                  <q-linear-progress size="25px" :value="props.row.linearProgress.progress" color="accent">
+                    <div class="absolute-full flex flex-center">
+                      <q-badge color="white" text-color="accent" :label="props.row.linearProgress.progressLabel" />
+                    </div>
+                  </q-linear-progress>
+                </q-card-section>
+                <q-separator />
+                <q-card-section>
+                  {{ props.row.plan_content }}
+                </q-card-section>
+              </q-card>
+            </div>
+          </template>
+        </q-table>
+        <task-date :planId="planId" :checkDate="checkDate" v-if="selectedPlan.length > 0" v-on:taskChange="taskChange" />
+        <q-table
+          :data="targetData"
+          :columns="targetColumns"
+          row-key="target_id"
+          selection="multiple"
+          :selected.sync="selectedChild"
+          :pagination.sync="pagination"
+          grid
+          hide-header
+        >
+          <template v-slot:top>
+            <div class="q-table__title">
+              【子目标】{{ target.target_title }}
+              <q-chip outline size="xs" :color="levelColors[target.target_level + 1]" text-color="white" icon="bookmark">
+                {{ target.target_level + 1 }}级
+              </q-chip>
+            </div>
+          </template>
+          <template v-slot:top-right>
+            请选择:
+            <q-tabs v-model="tab1" no-caps>
+              <q-tab class="text-primary" v-for="(item, index) in finishOptions" :name="item.value" :label="item.label" :key="index" />
+            </q-tabs>
+          </template>
+          <template v-slot:item="props">
+            <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition" :style="props.selected ? 'transform: scale(0.95);' : ''">
+              <q-card :class="props.selectedChild ? 'bg-grey-2' : ''">
+                <q-card-section>
+                  <q-checkbox dense v-model="props.selected" :label="props.row.name" />
+                  <div style="float: right">{{ props.row.target_time_bound }}</div>
+                </q-card-section>
+                <q-separator />
+                <q-list dense>
+                  <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                    <q-item-section no-wrap>
+                      <q-item-label>{{ col.label }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-item-label caption lines="1">{{ col.value }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+                <q-card-actions align="right">
+                  <q-btn flat @click="toChildTarget(props.row.target_id)">目标详情</q-btn>
+                  <q-btn flat @click="$router.push({ name: 'plan', params: { targetId: props.row.target_id } })">制定计划</q-btn>
+                </q-card-actions>
+              </q-card>
+            </div>
+          </template>
+        </q-table>
+      </q-card-actions>
+    </q-card>
+
+    <q-page-sticky position="bottom-right" :offset="[28, 28]">
+      <!-- <q-fab color="purple" icon="keyboard_arrow_up" direction="up"> -->
+      <q-btn color="primary" round size="lg" @click="add()" icon="add" />
+      <!-- </q-fab> -->
+    </q-page-sticky>
   </div>
 </template>
 <style lang="sass">
@@ -251,7 +274,7 @@ export default {
       findTargetByPK({ id, isQryChild: true }).then(res => {
         if (res.retCode === '000000') {
           this.childData = res.data.targets
-            .filter(item => item.target_id !== id)
+            .filter(item => item.target_id !== parseInt(id, 10))
             .map(item => {
               const each = item;
               each.name = item.target_title;
@@ -266,7 +289,7 @@ export default {
             each.linearProgress.progressLabel = `${(each.linearProgress.progress * 100).toFixed(2)}%`;
             return each;
           });
-          [this.target] = res.data.targets.filter(item => item.target_id === id);
+          [this.target] = res.data.targets.filter(item => item.target_id === parseInt(id, 10));
         }
       });
     },
@@ -296,6 +319,15 @@ export default {
         this.selectedPlan.push(last);
       });
     },
+    add() {
+      const option = {
+        parentId: this.$route.params.targetId,
+      };
+      this.$store.commit('Personal/SET_RIGHT_DRAWER_OPEN', { open: true, flag: 'addTarget', option });
+    },
+    toChildTarget(id) {
+      this.findDetail(id);
+    }
   },
 };
 </script>

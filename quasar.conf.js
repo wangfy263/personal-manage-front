@@ -20,7 +20,7 @@ module.exports = function(/* ctx */) {
     boot: ['axios', 'vuelidate'],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: ['app.sass'],
+    css: ['app.sass', 'common.css'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [

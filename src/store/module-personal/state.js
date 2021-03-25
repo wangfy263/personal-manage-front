@@ -3,6 +3,7 @@ export default function () {
     isLogin: false,
     rightDrawerOpen: false,
     rightSideFlag: '',
+    rightSideOption: {},
     enums: [],
     finishOptions: [
       { label: '未完成', value: 0 },

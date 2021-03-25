@@ -10,14 +10,18 @@ const routes = [
       { path: '/expend/mangeDicts', name: 'dicts', component: () => import('pages/dictionary/DictsManage.vue') },
       { path: '/target/targetList', name: 'target', component: () => import('pages/targets/TargetList.vue') },
       { path: '/target/plan', name: 'plan', component: () => import('pages/targets/TargetPlan.vue') },
-      { path: '/target/targetDetail', name: 'targetDetail', component: () => import('pages/targets/TargetDetail.vue') },
+      { path: '/target/targetDetail/:targetId', name: 'targetDetail', component: () => import('pages/targets/TargetDetail.vue') },
+      { path: '/planTable/Daily', name: 'planTableDaily', component: () => import('pages/planTable/DailyTable.vue') },
+      { path: '/planTable/Weekly', name: 'planTableWeekly', component: () => import('pages/planTable/WeeklyTable.vue') },
+      { path: '/planTable/Monthly', name: 'planTableMonthly', component: () => import('pages/planTable/MonthlyTable.vue') },
+      { path: '/planTable/Yearly', name: 'planTableYearly', component: () => import('pages/planTable/YearlyTable.vue') },
     ],
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import('components/Login.vue'),
-  }
+  },
 ];
 
 // Always leave this as last one
