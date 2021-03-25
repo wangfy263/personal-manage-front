@@ -11,13 +11,15 @@ const routes = [
       { path: '/target/targetList', name: 'target', component: () => import('pages/targets/TargetList.vue') },
       { path: '/target/plan', name: 'plan', component: () => import('pages/targets/TargetPlan.vue') },
       { path: '/target/targetDetail', name: 'targetDetail', component: () => import('pages/targets/TargetDetail.vue') },
+      // 方法论
+      { path: '/methodology/swot', name: 'swot', component: () => import('pages/methodology/SwotAnalyse.vue') },
     ],
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import('components/Login.vue'),
-  }
+  },
 ];
 
 // Always leave this as last one
