@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <div id="indexLizi"></div>
+    <canvas id="indexLizi"></canvas>
     <div class="full-height row justify-center">
       <div class="column justify-center" style="width:300px">
         <div style="text-align:left">
@@ -37,8 +37,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import THREE from '../libs/three/three';
-
-const RaindropFX = require('raindrop-fx');
+import RaindropFX from '../libs/rain/index';
 
 export default {
   data() {
@@ -176,14 +175,15 @@ export default {
       this.$v.form.$reset();
     },
     initRain() {
-      const canvas = document.querySelector('#indexLizi');
+      const canvas = document.getElementById('indexLizi');
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width;
       canvas.height = rect.height;
 
+      /* eslint-disable */
       const raindropFx = new RaindropFX({
         canvas,
-        background: 'path/to/background/image',
+        background: '/statics/rain-back.jpg',
       });
 
       window.onresize = () => {
@@ -197,7 +197,9 @@ export default {
   computed: {},
   mounted() {
     // this.liziInit();
-    this.initRain();
+    setTimeout(() => {
+      this.initRain();
+    }, 1000);
   },
   beforeDestroy() {
     if (this.interval) clearInterval(this.interval);
@@ -216,7 +218,7 @@ export default {
   bottom: 0;
   left: 0;
   text-align: center;
-  background-color: #141a48;
+  background-color: #333;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -247,7 +249,7 @@ export default {
   position: absolute;
   width: 100%;
   top: 0;
-  bottom: 0;
+  left: 0;
   overflow: hidden;
 }
 
