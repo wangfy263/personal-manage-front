@@ -38,6 +38,8 @@
 import { required } from 'vuelidate/lib/validators';
 import THREE from '../libs/three/three';
 
+const RaindropFX = require('raindrop-fx');
+
 export default {
   data() {
     return {
@@ -173,10 +175,29 @@ export default {
       this.form.password = '';
       this.$v.form.$reset();
     },
+    initRain() {
+      const canvas = document.querySelector('#indexLizi');
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+
+      const raindropFx = new RaindropFX({
+        canvas,
+        background: 'path/to/background/image',
+      });
+
+      window.onresize = () => {
+        const rect1 = canvas.getBoundingClientRect();
+        raindropFx.resize(rect1.width, rect1.height);
+      };
+
+      raindropFx.start();
+    },
   },
   computed: {},
   mounted() {
-    this.liziInit();
+    // this.liziInit();
+    this.initRain();
   },
   beforeDestroy() {
     if (this.interval) clearInterval(this.interval);
